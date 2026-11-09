@@ -1,0 +1,1472 @@
+/* Direction artistique « hybride » : rouge et noir, un seul thème sombre, cartes arrondies et titres condensés. */
+:root {
+  --bg: #0d0d0d;
+  --surface: #181818;
+  --surface-2: #222222;
+  --text: #f5f5f5;
+  --muted: #a3a3a3;
+  /* Fond des boutons et surfaces pleines (texte blanc dessus, contraste ≥ 4,5:1). */
+  --primary: #d4140b;
+  --primary-strong: #a50f08;
+  --primary-contrast: #ffffff;
+  /* Rouge pour le texte sur fond noir (contraste ≥ 4,5:1). */
+  --accent: #ff4136;
+  --border: #2a2a2a;
+  --info-bg: #241010;
+  --warn-bg: #3a1410;
+  --radius-card: 1rem;
+  --radius-pill: 999px;
+  --nav-height: 3.5rem;
+  /* Barre flottante : hauteur + marge basse, à réserver sous le contenu. */
+  --nav-gap: 0.75rem;
+  --heading-font: 'Barlow Condensed', 'Bahnschrift', 'Arial Narrow', system-ui, sans-serif;
+  color-scheme: dark;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  font-size: 16px;
+  line-height: 1.5;
+  -webkit-text-size-adjust: 100%;
+}
+
+a {
+  color: var(--accent);
+}
+
+h1,
+h2,
+.card__title,
+.navbar__link,
+.btn {
+  font-family: var(--heading-font);
+}
+
+h1 {
+  font-size: 2.1rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.01em;
+  line-height: 1.05;
+  margin: 0 0 0.25rem;
+}
+
+.muted {
+  color: var(--muted);
+}
+
+/* Mobile d'abord : contenu au-dessus, barre de navigation fixée en bas. */
+.app {
+  min-height: 100dvh;
+}
+
+.app__content {
+  width: 100%;
+  max-width: 40rem;
+  margin: 0 auto;
+  padding: 1rem 1rem calc(var(--nav-height) + var(--nav-gap) + 1.5rem + env(safe-area-inset-bottom));
+}
+
+.navbar {
+  position: fixed;
+  inset: auto 0 0 0;
+  height: calc(var(--nav-height) + env(safe-area-inset-bottom));
+  padding-bottom: env(safe-area-inset-bottom);
+  display: flex;
+  background: var(--surface);
+  border-top: 1px solid var(--border);
+  z-index: 10;
+}
+
+.navbar__link {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--muted);
+  text-decoration: none;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.navbar__link--active {
+  color: var(--accent);
+  font-weight: 700;
+}
+
+.screen {
+  padding: 0.5rem 0;
+}
+
+.banner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  padding: 0.75rem 1rem;
+  margin-bottom: 0.75rem;
+  border-radius: 0.75rem;
+  border: 1px solid var(--border);
+  font-size: 0.9rem;
+}
+
+.banner--info {
+  background: var(--info-bg);
+}
+
+.banner--warn {
+  background: var(--warn-bg);
+}
+
+.banner__actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.btn {
+  min-height: 2.75rem;
+  padding: 0.5rem 1rem;
+  border: 0;
+  border-radius: 0.5rem;
+  background: var(--primary);
+  color: var(--primary-contrast);
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.btn--ghost {
+  background: transparent;
+  color: var(--text);
+  border: 1px solid var(--border);
+}
+
+/* Grand écran : navigation latérale. */
+@media (min-width: 48rem) {
+  .app {
+    display: flex;
+  }
+
+  .navbar {
+    position: sticky;
+    inset: auto;
+    top: 0;
+    flex: none;
+    height: 100dvh;
+    width: 11rem;
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: 0.25rem;
+    padding: 1.5rem 0.5rem;
+    border-top: 0;
+    border-right: 1px solid var(--border);
+  }
+
+  .navbar__link {
+    flex: none;
+    justify-content: flex-start;
+    padding: 0.75rem 1rem;
+    border-radius: 0.5rem;
+  }
+
+  .navbar__link--active {
+    background: var(--info-bg);
+  }
+
+  .app__content {
+    flex: 1;
+    margin: 0 auto;
+    padding-bottom: 1.5rem;
+  }
+}
+
+/* Formulaires et premier lancement. */
+h2 {
+  font-size: 1.2rem;
+  margin: 1rem 0 0.5rem;
+}
+
+.app__loading {
+  padding: 2rem 1rem;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  margin-bottom: 0.75rem;
+  flex: 1;
+}
+
+.field label {
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+input[type='text'],
+input[type='date'],
+input[type='time'],
+input[type='number'],
+select {
+  min-height: 2.75rem;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid var(--border);
+  border-radius: 0.5rem;
+  background: var(--surface);
+  color: var(--text);
+  font: inherit;
+  width: 100%;
+}
+
+.field-row {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.field-group {
+  border: 0;
+  padding: 0;
+  margin: 0 0 1rem;
+  min-width: 0;
+}
+
+.field-group legend {
+  font-weight: 600;
+  padding: 0;
+  margin-bottom: 0.5rem;
+}
+
+.record-field {
+  padding: 0.75rem;
+  border: 1px solid var(--border);
+  border-radius: 0.75rem;
+}
+
+.choice {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.15rem 0.75rem;
+  min-height: 2.75rem;
+  padding: 0.5rem 0.75rem;
+  margin-bottom: 0.4rem;
+  border: 1px solid var(--border);
+  border-radius: 0.5rem;
+  background: var(--surface);
+  cursor: pointer;
+}
+
+.choice--selected {
+  border-color: var(--primary);
+  background: var(--info-bg);
+}
+
+.choice__label {
+  font-weight: 600;
+}
+
+.choice__desc {
+  flex-basis: 100%;
+  padding-left: 1.75rem;
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+.form-error {
+  padding: 0.6rem 0.9rem;
+  border-radius: 0.5rem;
+  background: var(--warn-bg);
+  font-weight: 600;
+}
+
+.form-ok {
+  color: var(--accent);
+  font-weight: 600;
+}
+
+.onboarding__progress {
+  width: 100%;
+  height: 0.5rem;
+  accent-color: var(--primary);
+}
+
+.onboarding__actions {
+  display: flex;
+  gap: 0.75rem;
+  margin-top: 1rem;
+}
+
+.onboarding__actions .btn {
+  flex: 1;
+}
+
+.settings__section {
+  margin-bottom: 2rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.club-day {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  min-height: 2.75rem;
+  margin-bottom: 0.25rem;
+}
+
+.club-day__toggle {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 600;
+}
+
+.club-day__details {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.club-day__details select {
+  width: auto;
+}
+
+.club-day__duration {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.club-day__duration input {
+  width: 4.5rem;
+}
+
+.match-list,
+.record-list {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 1rem;
+}
+
+.match-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.match-row input {
+  flex: 1;
+  min-width: 8rem;
+}
+
+.record-list li {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid var(--border);
+}
+
+/* Accueil, semaine, séance. */
+.card {
+  padding: 1rem;
+  margin-bottom: 0.75rem;
+  border: 1px solid var(--border);
+  border-radius: 0.75rem;
+  background: var(--surface);
+}
+
+.card h2 {
+  margin-top: 0;
+  font-size: 1.05rem;
+}
+
+.card__title {
+  margin: 0;
+  font-size: 1.2rem;
+  font-weight: 700;
+}
+
+.card .btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 0.5rem;
+  text-decoration: none;
+}
+
+.reason {
+  margin: 0.5rem 0 0;
+  font-size: 0.9rem;
+  color: var(--muted);
+}
+
+/* Semaine : navigation et cartes de jour. */
+.week-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin: 0.75rem 0 1rem;
+}
+
+.week-nav__center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.week-nav__label {
+  font-family: var(--heading-font);
+  font-size: 1.3rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.icon-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  flex: none;
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  background: var(--surface);
+  color: var(--text);
+  cursor: pointer;
+}
+
+.icon-btn:hover,
+.icon-btn:focus-visible {
+  background: var(--surface-2);
+  border-color: var(--primary);
+}
+
+.week-list {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 1rem;
+}
+
+.day-row {
+  display: grid;
+  grid-template-columns: 3rem minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 0.75rem;
+  min-height: 4rem;
+  padding: 0.75rem 0.9rem 0.75rem 1rem;
+  margin-bottom: 0.5rem;
+  border: 1px solid transparent;
+  border-radius: var(--radius-card);
+  background: var(--surface);
+  /* Barre de couleur à gauche : même code que la frise de l'accueil. */
+  box-shadow: inset 4px 0 0 #262626;
+}
+
+.day-row--club {
+  box-shadow: inset 4px 0 0 #555;
+}
+
+.day-row--seance {
+  box-shadow: inset 4px 0 0 #d4d4d4;
+}
+
+.day-row--match {
+  background: var(--info-bg);
+  box-shadow: inset 4px 0 0 var(--primary);
+}
+
+.day-row--today {
+  border-color: var(--text);
+}
+
+.day-row__date {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  line-height: 1;
+}
+
+.day-row__day {
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.day-row__num {
+  font-family: var(--heading-font);
+  font-size: 1.7rem;
+  font-weight: 800;
+}
+
+.day-row--today .day-row__day {
+  color: var(--accent);
+}
+
+.day-row__main {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  min-width: 0;
+}
+
+.day-row__title {
+  font-family: var(--heading-font);
+  font-size: 1.2rem;
+  font-weight: 700;
+  line-height: 1.15;
+  text-transform: uppercase;
+}
+
+.day-row__title a {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.2rem;
+  color: var(--text);
+  text-decoration: none;
+}
+
+.day-row__title a .icon {
+  color: var(--accent);
+}
+
+.day-row__actions {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.4rem;
+}
+
+.btn--small {
+  min-height: 2.25rem;
+  padding: 0.25rem 0.85rem;
+  font-size: 0.95rem;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  white-space: nowrap;
+}
+
+.chip.chip--done {
+  background: var(--primary);
+  color: var(--primary-contrast);
+  font-weight: 600;
+}
+
+.done-mark {
+  color: var(--accent);
+  font-weight: 700;
+}
+
+/* Séance : en-tête. */
+.session__back {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  min-height: 2.75rem;
+  margin-bottom: 0.25rem;
+  color: var(--muted);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.session__back:hover {
+  color: var(--text);
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin: 0.5rem 0 0.75rem;
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.25rem 0.7rem;
+  border-radius: var(--radius-pill);
+  background: var(--surface-2);
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+.session-progress {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 0.75rem;
+}
+
+.session-progress__bar {
+  flex: 1;
+  height: 0.4rem;
+  border-radius: var(--radius-pill);
+  background: var(--surface-2);
+  overflow: hidden;
+}
+
+.session-progress__bar span {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: var(--primary);
+  transition: width 0.25s ease;
+}
+
+.session-progress__count {
+  font-family: var(--heading-font);
+  font-size: 1.05rem;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.reason-list {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 0.75rem;
+}
+
+/* Séance : échauffement. */
+.warmup__head {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.warmup__head h2 {
+  margin: 0;
+}
+
+.warmup__head .meta {
+  margin: 0;
+}
+
+.warmup__icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  flex: none;
+  border-radius: 50%;
+  background: var(--info-bg);
+  color: var(--accent);
+}
+
+.warmup--done .warmup__icon {
+  background: var(--primary);
+  color: var(--primary-contrast);
+}
+
+/* Case à cocher en grande pilule tactile. */
+.toggle {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  min-height: 2.75rem;
+  margin-top: 0.6rem;
+  padding: 0.4rem 0.9rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-pill);
+  background: var(--surface-2);
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.toggle input {
+  width: 1.2rem;
+  height: 1.2rem;
+  margin: 0;
+}
+
+.toggle:has(input:checked) {
+  border-color: var(--primary);
+  background: var(--info-bg);
+}
+
+/* Séance : exercices et séries. */
+.exercise__head {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: center;
+  gap: 0.35rem 0.6rem;
+}
+
+.exercise__index {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.9rem;
+  height: 1.9rem;
+  border-radius: 50%;
+  background: var(--surface-2);
+  font-family: var(--heading-font);
+  font-weight: 800;
+}
+
+.exercise--complete .exercise__index {
+  background: var(--primary);
+  color: var(--primary-contrast);
+}
+
+.exercise__name {
+  margin: 0;
+  font-size: 1.25rem;
+  line-height: 1.1;
+}
+
+.exercise__rx {
+  grid-column: 2;
+  justify-self: start;
+  padding: 0.1rem 0.6rem;
+  border-radius: var(--radius-pill);
+  background: var(--info-bg);
+  color: var(--accent);
+  font-family: var(--heading-font);
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+.set-row {
+  display: grid;
+  grid-template-columns: 2.25rem repeat(3, minmax(0, 1fr));
+  align-items: center;
+  gap: 0.4rem;
+  margin-top: 0.4rem;
+}
+
+.set-row--head {
+  margin-top: 0.75rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  text-align: center;
+  color: var(--muted);
+}
+
+.set-row__label {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  background: var(--surface-2);
+  font-family: var(--heading-font);
+  font-weight: 700;
+}
+
+.set-row--head .set-row__label {
+  width: auto;
+  height: auto;
+  background: none;
+  font-family: inherit;
+  font-weight: inherit;
+}
+
+.set-row--filled .set-row__label {
+  background: var(--primary);
+  color: var(--primary-contrast);
+}
+
+.set-row input[type='text'] {
+  min-width: 0;
+  text-align: center;
+  font-family: var(--heading-font);
+  font-size: 1.2rem;
+  font-weight: 700;
+}
+
+.set-row input[type='text']::placeholder {
+  font-weight: 600;
+  color: #6b6b6b;
+}
+
+.exercise details,
+.warmup details {
+  margin-top: 0.6rem;
+  font-size: 0.9rem;
+}
+
+summary {
+  cursor: pointer;
+  color: var(--muted);
+}
+
+/* Séance : fin. */
+.finish {
+  margin-top: 1rem;
+}
+
+.finish .btn,
+.session > a.btn:last-child {
+  width: 100%;
+}
+
+a.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+}
+
+/* Ressenti et notes de séance : échelles tactiles. */
+.scale__row {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.scale__row--wrap {
+  flex-wrap: wrap;
+}
+
+.scale__end {
+  flex: 1;
+  font-size: 0.8rem;
+  line-height: 1.2;
+}
+
+.scale__end:last-child {
+  text-align: right;
+}
+
+.scale__btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 2.75rem;
+  min-height: 2.75rem;
+  border: 1px solid var(--border);
+  border-radius: 0.5rem;
+  background: var(--surface);
+  color: var(--text);
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.scale__btn input {
+  position: absolute;
+  inset: 0;
+  margin: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.scale__btn--selected {
+  border-color: var(--primary);
+  background: var(--primary);
+  color: var(--primary-contrast);
+}
+
+.scale__btn:focus-within {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+
+.adaptation__list {
+  flex-basis: 100%;
+  margin: 0;
+  padding-left: 1.25rem;
+}
+
+/* Records et progression. */
+.sparkline {
+  color: var(--accent);
+  flex: none;
+}
+
+.record-card__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.record-card__value {
+  margin: 0.15rem 0 0;
+  font-weight: 700;
+}
+
+.record-gap {
+  margin: 0.4rem 0 0;
+  font-size: 0.95rem;
+}
+
+.record-gap--below {
+  color: #ffb4a8;
+}
+
+.record-gap--above,
+.record-gap--ok {
+  color: var(--accent);
+}
+
+.record-form {
+  margin-bottom: 1rem;
+}
+
+.record-source summary {
+  cursor: pointer;
+  font-size: 0.9rem;
+  color: var(--muted);
+}
+
+.record-source p {
+  margin: 0.25rem 0;
+  font-size: 0.9rem;
+}
+
+.home-progress {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.backup-import {
+  display: inline-block;
+}
+
+/* --- Direction artistique hybride : finitions ---------------------------------------------------- */
+
+/* Barre de navigation flottante en icônes (mobile). */
+.navbar {
+  inset: auto var(--nav-gap) calc(var(--nav-gap) + env(safe-area-inset-bottom)) var(--nav-gap);
+  height: var(--nav-height);
+  padding: 0 0.5rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-pill);
+  background: rgba(20, 20, 20, 0.92);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.navbar__link {
+  position: relative;
+  flex-direction: column;
+  gap: 0.15rem;
+  color: #8a8a8a;
+  transition: color 0.15s ease;
+}
+
+.navbar__link--active {
+  color: var(--accent);
+}
+
+/* Point rouge sous l'icône active. */
+.navbar__link--active::after {
+  content: '';
+  position: absolute;
+  bottom: 0.45rem;
+  width: 0.3rem;
+  height: 0.3rem;
+  border-radius: 50%;
+  background: var(--accent);
+}
+
+.navbar__label {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+.icon {
+  flex: none;
+}
+
+.btn {
+  border-radius: var(--radius-pill);
+  font-family: var(--heading-font);
+  font-size: 1.05rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  transition:
+    background 0.15s ease,
+    transform 0.1s ease;
+}
+
+.btn:hover,
+.btn:focus-visible {
+  background: var(--primary-strong);
+}
+
+.btn:active {
+  transform: scale(0.98);
+}
+
+.btn--ghost {
+  border-color: #444;
+}
+
+.btn--ghost:hover,
+.btn--ghost:focus-visible {
+  background: var(--surface-2);
+  border-color: var(--primary);
+}
+
+.card {
+  border: 0;
+  border-radius: var(--radius-card);
+}
+
+h2 {
+  font-size: 1.35rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+.card h2 {
+  font-size: 1.2rem;
+}
+
+.card__title {
+  font-size: 1.5rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  line-height: 1.05;
+}
+
+.banner {
+  border: 0;
+  border-radius: var(--radius-card);
+}
+
+.banner--warn,
+.form-error {
+  box-shadow: inset 3px 0 0 var(--accent);
+}
+
+input[type='text'],
+input[type='date'],
+input[type='time'],
+input[type='number'],
+select {
+  background: var(--surface-2);
+  border-color: #3a3a3a;
+  border-radius: 0.75rem;
+}
+
+input:focus-visible,
+select:focus-visible,
+.btn:focus-visible,
+a:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+input[type='checkbox'],
+input[type='radio'] {
+  accent-color: var(--primary);
+}
+
+.choice,
+.scale__btn {
+  background: var(--surface-2);
+  border-radius: 0.75rem;
+}
+
+/* Petit titre au-dessus d'une valeur ou d'une carte (prime sur le style des h2 de carte). */
+.eyebrow,
+.card .eyebrow {
+  margin: 0;
+  font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--muted);
+}
+
+/* Accueil : frise de la semaine. */
+.week-strip {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 0.3rem;
+  margin: 1rem 0;
+  color: var(--muted);
+  text-decoration: none;
+}
+
+.week-strip__day {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.3rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.week-strip__bar {
+  width: 100%;
+  height: 0.3rem;
+  border-radius: var(--radius-pill);
+  background: #262626;
+}
+
+.week-strip__day--club .week-strip__bar {
+  background: #555;
+}
+
+.week-strip__day--seance .week-strip__bar {
+  background: #d4d4d4;
+}
+
+.week-strip__day--match .week-strip__bar {
+  background: var(--primary);
+}
+
+.week-strip__day--today {
+  color: var(--text);
+}
+
+.week-strip__day--today .week-strip__bar {
+  outline: 2px solid var(--text);
+  outline-offset: 2px;
+}
+
+.week-strip__done {
+  height: 0.9rem;
+  line-height: 1;
+  color: var(--accent);
+}
+
+/* Accueil : carte de la séance du jour. */
+.card--hero {
+  border-radius: 0 var(--radius-card) var(--radius-card) 0;
+  box-shadow: inset 4px 0 0 var(--primary);
+}
+
+.card--hero .btn:not(.btn--ghost) {
+  width: 100%;
+}
+
+.meta {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  margin: 0.35rem 0 0;
+  font-size: 0.9rem;
+  color: var(--muted);
+}
+
+.text-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  min-height: 2.75rem;
+  margin-top: 0.25rem;
+  color: var(--muted);
+  font-size: 0.9rem;
+  text-decoration: none;
+}
+
+.text-link:hover {
+  color: var(--text);
+}
+
+/* Accueil : tuiles de chiffres. */
+.stat-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.75rem;
+  margin-bottom: 0.75rem;
+}
+
+.stat-grid .card {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+}
+
+.stat-grid .card h2 {
+  margin: 0;
+}
+
+.stat {
+  margin: 0.25rem 0 0;
+  font-family: var(--heading-font);
+  font-size: 2.2rem;
+  font-weight: 800;
+  line-height: 1;
+}
+
+.stat__unit {
+  margin-left: 0.15rem;
+  font-size: 1rem;
+  color: var(--muted);
+}
+
+.stat-grid .btn,
+.stat-grid .text-link {
+  margin-top: auto;
+}
+
+.stat-grid .reason {
+  font-size: 0.8rem;
+}
+
+/* Charge conseillée d'un exercice. */
+.load-hint {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.15rem 0.6rem;
+  margin: 0.75rem 0 0.25rem;
+  padding: 0.6rem 0.9rem;
+  border-radius: 0.75rem;
+  background: var(--surface-2);
+}
+
+.load-hint__value {
+  font-family: var(--heading-font);
+  font-size: 1.6rem;
+  font-weight: 800;
+  line-height: 1.1;
+  color: var(--text);
+}
+
+.load-hint__value::before {
+  content: 'Conseillé ';
+  font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--accent);
+}
+
+.load-hint__basis {
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+.load-hint--missing {
+  font-size: 0.9rem;
+  color: var(--muted);
+}
+
+@media (min-width: 48rem) {
+  .navbar {
+    inset: auto;
+    top: 0;
+    height: 100dvh;
+    padding: 1.5rem 0.75rem;
+    border: 0;
+    border-right: 1px solid var(--border);
+    border-radius: 0;
+    background: var(--bg);
+  }
+
+  .navbar__link {
+    flex-direction: row;
+    gap: 0.75rem;
+    padding: 0.75rem 1rem;
+    border-radius: var(--radius-pill);
+    font-size: 1.05rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+
+  .navbar__link--active {
+    color: var(--text);
+    background: var(--surface-2);
+  }
+
+  .navbar__link--active .icon {
+    color: var(--accent);
+  }
+
+  .navbar__link--active::after {
+    display: none;
+  }
+
+  .navbar__label {
+    position: static;
+    width: auto;
+    height: auto;
+    overflow: visible;
+    clip: auto;
+  }
+}
+
+/* --- Méthode ATP : séance par blocs A à F, phase de saison --------------------------------------- */
+
+.block {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.block--superset {
+  border-left: 3px solid var(--primary);
+  padding-left: 0.75rem;
+}
+
+.block--optional {
+  border: 1px dashed var(--border);
+  border-radius: var(--radius-card);
+  padding: 0.75rem;
+}
+
+.block--optional > summary {
+  cursor: pointer;
+  list-style: none;
+}
+
+.block--optional > summary::-webkit-details-marker {
+  display: none;
+}
+
+.block--optional[open] > summary {
+  margin-bottom: 0.75rem;
+}
+
+.block-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.25rem 0.75rem;
+  margin-top: 0.5rem;
+}
+
+.block-head__title {
+  font-family: var(--heading-font);
+  font-size: 1.35rem;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  margin: 0;
+}
+
+.block--optional .block-head__title::after {
+  content: ' ▸';
+  color: var(--muted);
+}
+
+.block--optional[open] .block-head__title::after {
+  content: ' ▾';
+}
+
+.wave-row {
+  display: grid;
+  grid-template-columns: 4.5rem 1fr auto;
+  gap: 0.5rem;
+  margin: 0.5rem 0 0.25rem;
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+.wave-row__kg {
+  color: var(--accent);
+  font-weight: 600;
+  text-align: right;
+}
+
+.radio-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem 1.25rem;
+  margin-bottom: 0.75rem;
+}
+
+.phase-banner {
+  font-family: var(--heading-font);
+  font-size: 1.1rem;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+}
+
+.review-list strong {
+  font-weight: 600;
+}
+
+/* --- Jours club en puces et match du week-end ---------------------------------------------------- */
+
+.club-days--chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.day-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.55rem 0.9rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-pill);
+  background: var(--surface);
+  cursor: pointer;
+}
+
+.day-chip input {
+  accent-color: var(--primary);
+}
+
+.day-chip--on {
+  border-color: var(--primary);
+  background: var(--info-bg);
+}
+
+.weekend-match {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.5rem;
+  margin: 0.75rem 0;
+}
+
+.weekend-match .form-error {
+  grid-column: 1 / -1;
+}
+
+.match-btn {
+  flex-direction: column;
+  justify-content: center;
+  gap: 0.1rem;
+  width: 100%;
+  text-align: center;
+}
+
+.match-btn__date {
+  display: block;
+  font-size: 0.75rem;
+  opacity: 0.8;
+  text-transform: none;
+}

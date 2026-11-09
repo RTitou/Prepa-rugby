@@ -1,0 +1,11 @@
+node_modules
+dist
+coverage
+*.local
+.DS_Store
+
+# Programme ATP payant (155 Mo) : ne jamais le publier
+*.pdf
+
+# Journal personnel de séances (données de santé) : ne pas publier
+journal-seances.md
